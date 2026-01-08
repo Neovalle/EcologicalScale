@@ -156,11 +156,17 @@
                 <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('intro-section')">
                     <span class="serif text-xl font-bold text-gray-800">The Ecological Scale</span>
                 </div>
-                <div class="hidden sm:flex space-x-6 lg:space-x-8">
+                <div class="hidden sm:flex space-x-6 lg:space-x-8 items-center">
                     <span onclick="navigateTo('ai-section')" class="nav-link text-gray-600 text-sm font-medium">AI Impact</span>
                     <span onclick="navigateTo('social-section')" class="nav-link text-gray-600 text-sm font-medium">Digital</span>
                     <span onclick="navigateTo('calculator-section')" class="nav-link text-gray-600 text-sm font-medium text-emerald-700 font-bold">Calculator</span>
                     <span onclick="navigateTo('methodology-section')" class="nav-link text-gray-500 text-sm font-medium border border-gray-300 rounded px-2 py-1 hover:bg-gray-100 hover:border-gray-400">Methodology & Data</span>
+                    
+                    <!-- NEW CITE BUTTON (DESKTOP) -->
+                    <button onclick="openCitation()" class="ml-4 px-3 py-1.5 bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-slate-700 transition shadow-sm flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        Cite This
+                    </button>
                 </div>
                 <!-- Mobile Menu Button -->
                 <div class="sm:hidden">
@@ -176,6 +182,8 @@
                     <span onclick="navigateTo('social-section')" class="block px-2 py-1 text-base font-medium text-gray-700">Digital</span>
                     <span onclick="navigateTo('calculator-section')" class="block px-2 py-1 text-base font-medium text-emerald-700 font-bold">Calculator</span>
                     <span onclick="navigateTo('methodology-section')" class="block px-2 py-1 text-base font-medium text-gray-500">Methodology</span>
+                    <!-- NEW CITE BUTTON (MOBILE) -->
+                    <button onclick="openCitation()" class="w-full mt-2 px-3 py-2 bg-slate-800 text-white text-sm font-bold rounded">Cite Report</button>
                 </div>
             </div>
         </div>
@@ -199,7 +207,7 @@
                     <div class="md:w-1/2">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">The AI Baseline: Training vs. Leisure</h2>
                         <p class="text-gray-600 mb-4 leading-relaxed">
-                            To understand AI's impact, we must look at the massive singular event of <strong>Training</strong>, which can take months of continuous energy consumption. Training GPT-3 totalled approximately <strong>552 tonnes of CO₂e</strong> (Patterson et al., 2021).
+                            To understand AI's impact, we must look at the massive singular event of <strong>Training</strong>, which can take months of continuous energy consumption. Training GPT-3 generated approximately <strong>552 tonnes of CO₂e</strong> (Patterson et al., 2021).
                         </p>
                         <p class="text-gray-600 mb-4 leading-relaxed">
                             To evaluate fairness, we compare this against sustained leisure activities. A footprint analysis for an "average" US golf course estimates approximately <strong>796.6 tCO₂e per year</strong>; therefore, maintaining it for <strong>6 months</strong> equals <strong>~398 tCO₂e</strong> (CleanFi, 2021).
@@ -485,10 +493,82 @@
     </main>
 
     <footer class="bg-gray-800 text-gray-400 py-8 text-center text-sm">
-        <p>&copy; 2026 The Ecological Scale by The H4rmony Project - Neovalle Ltd.</p>
+        <p>&copy; 2026 The Ecological Scale by The H4rmnony Project - Neovalle Ltd.</p>
     </footer>
 
+    <!-- CITATION MODAL POPUP -->
+    <div id="citation-modal" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden flex items-center justify-center z-50 backdrop-blur-sm" onclick="closeCitation()">
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 transform transition-all" onclick="event.stopPropagation()">
+            <button onclick="closeCitation()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Cite This Report</h3>
+            <p class="text-sm text-gray-500 mb-6">Click any citation to copy it.</p>
+
+            <!-- APA Style -->
+            <div class="mb-5">
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">APA Style (7th Ed.)</label>
+                <div onclick="copyToClipboard('apa-cite')" class="group relative bg-gray-50 border border-gray-200 rounded p-3 cursor-pointer hover:bg-emerald-50 hover:border-emerald-200 transition-colors">
+                    <p id="apa-cite" class="text-sm text-gray-800 font-mono leading-relaxed">Vallego, J. (2026). <em>The Ecological Scale: Contextualising AI Ecological Footprint</em>. <span class="citation-url"></span></p>
+                    <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-bold">Copy</div>
+                </div>
+            </div>
+
+            <!-- BibTeX Style -->
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">BibTeX</label>
+                <div onclick="copyToClipboard('bibtex-cite')" class="group relative bg-gray-50 border border-gray-200 rounded p-3 cursor-pointer hover:bg-blue-50 hover:border-blue-200 transition-colors">
+<pre id="bibtex-cite" class="text-xs text-gray-800 font-mono overflow-x-auto whitespace-pre-wrap">@misc{vallego_ecological_scale_2026,
+  author = {Vallego, Jorge},
+  title = {The Ecological Scale: Contextualising AI Ecological Footprint},
+  year = {2026},
+  publisher = {University of Gloucestershire},
+  howpublished = {\url{<span class="citation-url"></span>}}
+}</pre>
+                    <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-bold">Copy</div>
+                </div>
+            </div>
+            <button onclick="closeCitation()" class="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded hover:bg-slate-700 transition">Close</button>
+        </div>
+    </div>
+
+    <!-- SUCCESS TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-medium">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        Copied to clipboard!
+    </div>
+
     <script>
+        // --- Citation Logic ---
+        function openCitation() {
+            // Automatically puts your current website URL into the citation
+            const currentUrl = window.location.href;
+            document.querySelectorAll('.citation-url').forEach(el => el.innerText = currentUrl);
+            document.getElementById('citation-modal').classList.remove('hidden');
+        }
+
+        function closeCitation() {
+            document.getElementById('citation-modal').classList.add('hidden');
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+                setTimeout(closeCitation, 500); // Close modal automatically after copy
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
         // --- Navigation Logic ---
         function navigateTo(sectionId) {
             const section = document.getElementById(sectionId);
@@ -806,5 +886,3 @@
     </script>
 </body>
 </html>
-
-
